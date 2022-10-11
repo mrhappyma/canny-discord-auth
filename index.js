@@ -12,7 +12,8 @@ app.use(cors({ credentials: true, origin: true }));
 
 app.get("/auth/start", (req, res, next) => {
     if (!req.query.companyID || !req.query.redirect) return res.status(400).json('bad request');
-    res.redirect('https://discord.com/api/oauth2/authorize?client_id=913934717819166791&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fauth%2Ffinish&response_type=code&scope=identify%20email&prompt=none&state=https://canny.io/api/redirects/sso?companyID=' + req.query.companyID + '%26redirect%3D' + req.query.redirect)
+    var host = encodeURI(process.env.HOST + 'auth/finish')
+    res.redirect('https://discord.com/api/oauth2/authorize?client_id=913934717819166791&redirect_uri=' + host + '&response_type=code&scope=identify%20email&prompt=none&state=https://canny.io/api/redirects/sso?companyID=' + req.query.companyID + '%26redirect%3D' + req.query.redirect)
 });
 
 app.get("/auth/finish", async (req, res, next) => {
