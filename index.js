@@ -7,7 +7,7 @@ const DiscordOauth2 = require("discord-oauth2");
 dotenv.config();
 const oauth = new DiscordOauth2();
 
-var app = express();
+const app = express();
 app.use(cors({ credentials: true, origin: true }));
 
 app.get("/auth/start", (req, res, next) => {
@@ -18,7 +18,6 @@ app.get("/auth/start", (req, res, next) => {
 
 app.get("/auth/finish", async (req, res, next) => {
     if (!req.query.state || !req.query.code) return res.status(400).json('bad request');
-    let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     // get token from Discord
     let tokenRes = await oauth.tokenRequest({
         clientId: process.env.DISCORD_CLIENT_ID,
